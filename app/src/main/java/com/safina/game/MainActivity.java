@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         
         // ایجاد موتور بازی
         gameEngine = new GameEngine(this);
-        setContentView(gameEngine.getView());
+        setContentView(gameEngine);
+
     }
 
     @Override
