@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    compileSdk 34
     namespace 'com.safina.game'
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.safina.game"
@@ -14,18 +14,18 @@ android {
         versionName "1.0"
     }
 
-        compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
+    // سازگار با JDK 17 — از toVersion استفاده شده تا اگر enum VERSION_17 موجود نبود خطا نده
+    compileOptions {
+        sourceCompatibility = JavaVersion.toVersion(17)
+        targetCompatibility = JavaVersion.toVersion(17)
     }
-    
-        compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
 }
 
 dependencies {
