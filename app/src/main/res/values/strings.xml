@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Safina 3D Game</string>
+    <string name="game_title">Safina Space Adventure</string>
+    <string name="play_button">Play Game</string>
+    <string name="score_text">Score: %d</string>
+    <string name="level_text">Level: %d</string>
+</resources>
