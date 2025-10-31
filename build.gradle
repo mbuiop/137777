@@ -7,16 +7,3 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-// Project settings
-ext {
-    minSdkVersion = 21
-    targetSdkVersion = 34
-    compileSdkVersion = 34
-    
-    // Library versions
-    androidxCoreVersion = '1.12.0'
-    androidxAppcompatVersion = '1.6.1'
-    materialVersion = '1.10.0'
-    constraintLayoutVersion = '2.1.4'
-}
