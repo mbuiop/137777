@@ -20,7 +20,7 @@ try:
     nltk.download('punkt', quiet=True)
     nltk.download('stopwords', quiet=True)
     nltk.download('wordnet', quiet=True)
-    
+    nltk.download('punkt_tab', quiet=True)  # این رو اضافه کن
     AI_READY = True
     print("✅ هوش مصنوعی قدرتمند آماده شد")
 except Exception as e:
