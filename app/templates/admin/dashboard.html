@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}پنل مدیریت{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-dark text-white min-vh-100 p-3">
+            <h4 class="text-center py-3">
+                <i class="bi bi-gear"></i> پنل مدیریت
+            </h4>
+            <hr>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a href="/admin" class="nav-link text-white active">
+                        <i class="bi bi-speedometer2"></i> داشبورد
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/knowledge" class="nav-link text-white">
+                        <i class="bi bi-database"></i> دانش
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/users" class="nav-link text-white">
+                        <i class="bi bi-people"></i> کاربران
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/uploads" class="nav-link text-white">
+                        <i class="bi bi-files"></i> آپلودها
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+            <h2 class="mb-4">داشبورد مدیریت</h2>
+            
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5>کاربران</h5>
+                            <h2>{{ stats.users }}</h2>
+                            <small>فعال امروز: {{ stats.active_today }}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5>دانش</h5>
+                            <h2>{{ stats.knowledge }}</h2>
+                            <small>در حافظه: {{ ai_stats.in_memory }}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5>پیام‌ها</h5>
+                            <h2>{{ stats.messages }}</h2>
+                            <small>میانگین: {{ "%.1f"|format(ai_stats.cache_rate) }}% کش</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5>آپلودها</h5>
+                            <h2>{{ stats.uploads }}</h2>
+                            <small>زمان اجرا: {{ ai_stats.runtime }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Stats -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5>آمار هوش مصنوعی</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr>
+                                    <td>تعداد دانش:</td>
+                                    <td>{{ ai_stats.total_knowledge }}</td>
+                                </tr>
+                                <tr>
+                                    <td>در حافظه:</td>
+                                    <td>{{ ai_stats.in_memory }}</td>
+                                </tr>
+                                <tr>
+                                    <td>تعداد سوالات:</td>
+                                    <td>{{ ai_stats.total_queries }}</td>
+                                </tr>
+                                <tr>
+                                    <td>کش:</td>
+                                    <td>{{ "%.1f"|format(ai_stats.cache_rate) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>FAISS hits:</td>
+                                    <td>{{ ai_stats.faiss_hits }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upload File -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5>آپلود فایل آموزشی</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="/admin/upload" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label class="form-label">انتخاب فایل</label>
+                                    <input type="file" name="file" class="form-control" required>
+                                    <small class="text-muted">
+                                        فرمت‌های مجاز: txt, pdf, docx, csv, xlsx
+                                    </small>
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-cloud-upload"></i> آپلود و پردازش
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Users -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>کاربران اخیر</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>نام کاربری</th>
+                                        <th>پیام‌ها</th>
+                                        <th>تاریخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in recent_users %}
+                                    <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.messages_count }}</td>
+                                        <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Knowledge -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>پراستفاده‌ترین دانش‌ها</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>سوال</th>
+                                        <th>استفاده</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for k in top_knowledge %}
+                                    <tr>
+                                        <td>{{ k.question[:50] }}...</td>
+                                        <td>{{ k.usage }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
