@@ -11,6 +11,8 @@ class Knowledge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(500))
     answer = db.Column(db.String(500))
-    category = db.Column(db.String(50))
+    category = db.Column(db.String(50), default='general')
     usage = db.Column(db.Integer, default=0)
+    confidence = db.Column(db.Float, default=1.0)
+    source = db.Column(db.String(200), default='manual')  # اینو اضافه کن
     date = db.Column(db.DateTime, default=datetime.utcnow)
