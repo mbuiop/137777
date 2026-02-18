@@ -47,16 +47,9 @@ def learn_from_text(question, answer, source='manual'):
     auto_save()
     return True
 
-def learn_from_file(filepath, filename):
-    """یادگیری از فایل آپلود شده"""
-    extracted = 0
-    file_ext = filename.rsplit('.', 1)[1].lower()
-    
-    try:
-        # خوندن فایل
-        if file_ext == 'txt':
-            with open(filepath, 'r', encoding='utf-8') as f:
-                content = f.read()
+def read_file(filepath):
+    with open(filepath, 'r', encoding='utf-8') as f:
+        return f.read()
         else:
             return 0
         
@@ -87,9 +80,9 @@ def learn_from_file(filepath, filename):
         
         return extracted
         
-    except Exception as e:
-        print(f"خطا در خوندن فایل: {e}")
-        return 0
+            if file_ext == 'txt':
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
 
 def smart_search(user_question):
     """جستجوی هوشمند با مقایسه شباهت"""
